@@ -104,106 +104,104 @@
 #define B28800		1010002
 #define B128000		1010003
 #define B256000		1010004
-*/
+ */
 #endif /* dima */
 
-struct preopened
-{
+struct preopened {
 #if defined(_POSIX_PATH_MAX)
-	char filename[_POSIX_PATH_MAX];
+    char filename[_POSIX_PATH_MAX];
 #else
-	char filename[1024];
+    char filename[1024];
 #endif
-	int fd;
-	struct preopened *next;
-	struct preopened *prev;
+    int fd;
+    struct preopened *next;
+    struct preopened *prev;
 };
 
-struct event_info_struct
-{
-	int fd;
-	/* flags for events */
-	int eventflags[11];
-	
-	int initialised;
-	int ret, change;
-	unsigned int omflags;
-	char message[80];
-	int has_tiocsergetlsr;
-	int has_tiocgicount;
-	int eventloop_interrupted;
-	JNIEnv *env;
-	jobject *jobj;
-	jclass jclazz;
-	jmethodID send_event;
-	jmethodID checkMonitorThread;
-	struct event_info_struct *next, *prev;
-	fd_set rfds;
-	struct timeval tv_sleep;
-	int closing;
+struct event_info_struct {
+    int fd;
+    /* flags for events */
+    int eventflags[11];
+
+    int initialised;
+    int ret, change;
+    unsigned int omflags;
+    char message[80];
+    int has_tiocsergetlsr;
+    int has_tiocgicount;
+    int eventloop_interrupted;
+    JNIEnv *env;
+    jobject *jobj;
+    jclass jclazz;
+    jmethodID send_event;
+    jmethodID checkMonitorThread;
+    struct event_info_struct *next, *prev;
+    fd_set rfds;
+    struct timeval tv_sleep;
+    int closing;
 #if !defined(TIOCSERGETLSR) && !defined(WIN32)
-	int writing;
-	int output_buffer_empty_flag;
-	int drain_loop_running;
-	pthread_t drain_tid;
+    int writing;
+    int output_buffer_empty_flag;
+    int drain_loop_running;
+    pthread_t drain_tid;
 #endif /* !TIOCSERGETLSR !WIN32 */
-#	if defined(TIOCGICOUNT)
-	struct serial_icounter_struct osis;
+#if defined(TIOCGICOUNT)
+    struct serial_icounter_struct osis;
 #endif /* TIOCGICOUNT */
 };
 
 /*  Ports known on the OS */
 #if defined(__linux__)
 /*
-	This is a small hack to get mark and space parity working on older systems
-	https://bugzilla.redhat.com/bugzilla/show_bug.cgi?id=147533
-*/
-#	if !defined(CMSPAR)
-#		define CMSPAR 010000000000
-#	endif /* CMSPAR */
-#	
-#	define DEVICEDIR "/dev/"
-#	define LOCKDIR "/var/lock"
-#	define LOCKFILEPREFIX "LCK.."
-#	define FHS
+        This is a small hack to get mark and space parity working on older systems
+        https://bugzilla.redhat.com/bugzilla/show_bug.cgi?id=147533
+ */
+#if !defined(CMSPAR)
+#define CMSPAR 010000000000
+#endif /* CMSPAR */
+#
+#define DEVICEDIR "/dev/"
+#define LOCKDIR "/var/lock"
+#define LOCKFILEPREFIX "LCK.."
+#define FHS
 #endif /* __linux__ */
 #if defined(__QNX__)
-#	define DEVICEDIR "/dev/"
-#	define LOCKDIR ""
-#	define LOCKFILEPREFIX ""
+#define DEVICEDIR "/dev/"
+#define LOCKDIR ""
+#define LOCKFILEPREFIX ""
 #endif /* qnx */
 #if defined(__sgi__) || defined(sgi)
-#	define DEVICEDIR "/dev/"
-#	define LOCKDIR "/usr/spool/uucp"
-#	define LOCKFILEPREFIX "LK."
-#	define UUCP
+#define DEVICEDIR "/dev/"
+#define LOCKDIR "/usr/spool/uucp"
+#define LOCKFILEPREFIX "LK."
+#define UUCP
 #endif /* __sgi__ || sgi */
 #if defined(__FreeBSD__)
-#	define DEVICEDIR "/dev/"
-#	define LOCKDIR "/var/spool/lock"
-#	define LOCKFILEPREFIX "LK.."
-#	define UUCP
+#define DEVICEDIR "/dev/"
+#define LOCKDIR "/var/spool/lock"
+#define LOCKFILEPREFIX "LK.."
+#define UUCP
 #endif /* __FreeBSD__ */
 #if defined(__APPLE__)
-#	define DEVICEDIR "/dev/"
+#define DEVICEDIR "/dev/"
 /*#	define LOCKDIR "/var/spool/uucp"*/
-#	define LOCKDIR "/var/lock"
-#	define LOCKFILEPREFIX "LK."
+#define LOCKDIR "/var/lock"
+#define LOCKFILEPREFIX "LK."
 /*#	define UUCP*/
-#	define OPEN_EXCL
+#define OPEN_EXCL
 #endif /* __APPLE__ */
 #if defined(__NetBSD__)
-#	define DEVICEDIR "/dev/"
-#	define LOCKDIR "/var/lock"
+#define DEVICEDIR "/dev/"
+#define LOCKDIR "/var/lock"
 /*#	define LOCKDIR "/usr/spool/uucp"*/
-#	define LOCKFILEPREFIX "LK."
-#	define UUCP
+#define LOCKFILEPREFIX "LK."
+#define UUCP
 #endif /* __NetBSD__ */
 #if defined(__unixware__)
-#	define DEVICEDIR "/dev/"
+#define DEVICEDIR "/dev/"
 /* really this only fully works for OpenServer */
-#	define LOCKDIR "/var/spool/uucp/"
-#	define LOCKFILEPREFIX "LK."
+#define LOCKDIR "/var/spool/uucp/"
+#define LOCKFILEPREFIX "LK."
 /* 
 this needs work....
 
@@ -247,51 +245,51 @@ os.name in configure.in or perhaps system defines could determine the lock
 type.
 
 Trent
-*/
-#	define OLDUUCP
+ */
+#define OLDUUCP
 #endif
 #if defined(__hpux__)
 /* modif cath */
-#	define DEVICEDIR "/dev/"
-#	define LOCKDIR "/var/spool/uucp"
-#	define LOCKFILEPREFIX "LCK."
-#	define UUCP
+#define DEVICEDIR "/dev/"
+#define LOCKDIR "/var/spool/uucp"
+#define LOCKFILEPREFIX "LCK."
+#define UUCP
 #endif /* __hpux__ */
 #if defined(__osf__)  /* Digital Unix */
-#	define DEVICEDIR "/dev/"
-#	define LOCKDIR ""
-#	define LOCKFILEPREFIX "LK."
-#	define UUCP
+#define DEVICEDIR "/dev/"
+#define LOCKDIR ""
+#define LOCKFILEPREFIX "LK."
+#define UUCP
 #endif /* __osf__ */
 #if defined(__sun__) /* Solaris */
-#	define DEVICEDIR "/dev/"
-#	define LOCKDIR "/var/spool/locks"
-#	define LOCKFILEPREFIX "LK."
+#define DEVICEDIR "/dev/"
+#define LOCKDIR "/var/spool/locks"
+#define LOCKFILEPREFIX "LK."
 /*
 #	define UUCP
-*/
+ */
 #endif /* __sun__ */
 #if defined(__BEOS__)
-#	define DEVICEDIR "/dev/ports/"
-#	define LOCKDIR ""
-#	define LOCKFILEPREFIX ""
-#	define UUCP
+#define DEVICEDIR "/dev/ports/"
+#define LOCKDIR ""
+#define LOCKFILEPREFIX ""
+#define UUCP
 #endif /* __BEOS__ */
 #if defined(WIN32)
-#	define DEVICEDIR "//./"
-#	define LOCKDIR ""
-#	define LOCKFILEPREFIX ""
-#	define OPEN serial_open
-#	define CLOSE serial_close
-#	define WRITE serial_write
-#	define READ serial_read
-#	define SELECT serial_select
+#define DEVICEDIR "//./"
+#define LOCKDIR ""
+#define LOCKFILEPREFIX ""
+#define OPEN serial_open
+#define CLOSE serial_close
+#define WRITE serial_write
+#define READ serial_read
+#define SELECT serial_select
 #else /* use the system calls for Unix */
-#	define OPEN open
-#	define CLOSE close
-#	define WRITE write
-#	define READ read
-#	define SELECT select
+#define OPEN open
+#define CLOSE close
+#define WRITE write
+#define READ read
+#define SELECT select
 #endif /* WIN32 */
 
 #if defined(DEBUG_TIMING) && ! defined(WIN32) /* WIN32 does not have gettimeofday() */
@@ -368,7 +366,7 @@ printf("%8li sec : %8li usec\n", enow.tv_sec - snow.tv_sec, enow.tv_sec - snow.t
 /* allow people to override the directories */
 /* #define USER_LOCK_DIRECTORY "/home/tjarvi/1.5/build" */
 #ifdef USER_LOCK_DIRECTORY
-#	define LOCKDIR USER_LOCK_DIRECTORY
+#define LOCKDIR USER_LOCK_DIRECTORY
 #endif /* USER_LOCK_DIRECTORY */
 
 #ifdef DISABLE_LOCKFILES
@@ -379,11 +377,11 @@ printf("%8li sec : %8li usec\n", enow.tv_sec - snow.tv_sec, enow.tv_sec - snow.t
 
 /*  That should be all you need to look at in this file for porting */
 #ifdef LFS  /*  Use a Lock File Server */
-#	define LOCK lfs_lock
-#	define UNLOCK lfs_unlock
+#define LOCK lfs_lock
+#define UNLOCK lfs_unlock
 #elif defined(UUCP)
-#	define LOCK uucp_lock
-#	define UNLOCK uucp_unlock
+#define LOCK uucp_lock
+#define UNLOCK uucp_unlock
 #elif defined(OLDUUCP)
 /*
    We can handle the old style if needed here see __unixware__ above.
@@ -393,20 +391,20 @@ printf("%8li sec : %8li usec\n", enow.tv_sec - snow.tv_sec, enow.tv_sec - snow.t
    bug
 
    FIXME
-*/
-#	define LOCK fhs_lock
-#	define UNLOCK fhs_unlock
+ */
+#define LOCK fhs_lock
+#define UNLOCK fhs_unlock
 #elif defined(FHS)
 #ifdef LIBLOCKDEV
-#	define LOCK lib_lock_dev_lock
-#	define UNLOCK lib_lock_dev_unlock
+#define LOCK lib_lock_dev_lock
+#define UNLOCK lib_lock_dev_unlock
 #else
-#	define LOCK fhs_lock
-#	define UNLOCK fhs_unlock
+#define LOCK fhs_lock
+#define UNLOCK fhs_unlock
 #endif /* LIBLOCKDEV */
 #else 
-#	define LOCK system_does_not_lock
-#	define UNLOCK system_does_not_unlock
+#define LOCK system_does_not_lock
+#define UNLOCK system_does_not_unlock
 #endif /* UUCP */
 
 /* java exception class names */
@@ -420,84 +418,84 @@ printf("%8li sec : %8li usec\n", enow.tv_sec - snow.tv_sec, enow.tv_sec - snow.t
 /* some popular releases of Slackware do not have SSIZE_MAX */
 
 #ifndef SSIZE_MAX
-#	if defined(INT_MAX)
-#		define SSIZE_MAX  INT_MAX
-#	elif defined(MAXINT)
-#		define SSIZE_MAX MAXINT
-#	else
-#		define SSIZE_MAX 2147483647 /* ugh */
-#	endif
+#if defined(INT_MAX)
+#define SSIZE_MAX  INT_MAX
+#elif defined(MAXINT)
+#define SSIZE_MAX MAXINT
+#else
+#define SSIZE_MAX 2147483647 /* ugh */
+#endif
 #endif
 
 /*
 Flow Control defines inspired by reading how mgetty by Gert Doering does it
-*/
+ */
 
 #ifdef CRTSCTS
 #define HARDWARE_FLOW_CONTROL CRTSCTS
 #else
-#	ifdef CCTS_OFLOW
-#	define HARDWARE_FLOW_CONTROL CCTS_OFLOW|CRST_IFLOW
-#	else
-#		ifdef RTSFLOW
-#		define HARDWARE_FLOW_CONTROL RTSFLOW|CTSFLOW
-#		else
-#			ifdef CRTSFL
-#			define HARDWARE_FLOW_CONTROL CRTSFL
-#			else
-#				ifdef CTSCD
-#				define HARDWARE_FLOW_CONTROL CTSCD
-#				else
-#					define HARDWARE_FLOW_CONTROL 0
-#				endif
-#			endif
-#		endif
-#	endif
+#ifdef CCTS_OFLOW
+#define HARDWARE_FLOW_CONTROL CCTS_OFLOW|CRST_IFLOW
+#else
+#ifdef RTSFLOW
+#define HARDWARE_FLOW_CONTROL RTSFLOW|CTSFLOW
+#else
+#ifdef CRTSFL
+#define HARDWARE_FLOW_CONTROL CRTSFL
+#else
+#ifdef CTSCD
+#define HARDWARE_FLOW_CONTROL CTSCD
+#else
+#define HARDWARE_FLOW_CONTROL 0
+#endif
+#endif
+#endif
+#endif
 #endif
 
 /* PROTOTYPES */
 #ifdef __BEOS__
-struct tpid_info_struct *add_tpid( struct tpid_info_struct * );
-data_rate translate_speed( JNIEnv*, jint  );
-int translate_data_bits( JNIEnv *, data_bits *, jint );
-int translate_stop_bits( JNIEnv *, stop_bits *, jint );
-int translate_parity( JNIEnv *, parity_mode *, jint );
+struct tpid_info_struct *add_tpid(struct tpid_info_struct *);
+data_rate translate_speed(JNIEnv*, jint);
+int translate_data_bits(JNIEnv *, data_bits *, jint);
+int translate_stop_bits(JNIEnv *, stop_bits *, jint);
+int translate_parity(JNIEnv *, parity_mode *, jint);
 #else
-int spawn_write_thread( int, char *, int, JNIEnv *, jobject *);
-int translate_speed( JNIEnv*, jint  );
-int translate_data_bits( JNIEnv *, tcflag_t *, jint );
-int translate_stop_bits( JNIEnv *, tcflag_t *, jint );
-int translate_parity( JNIEnv *, tcflag_t *, jint );
+int spawn_write_thread(int, char *, int, JNIEnv *, jobject *);
+int translate_speed(JNIEnv*, jint);
+int translate_data_bits(JNIEnv *, tcflag_t *, jint);
+int translate_stop_bits(JNIEnv *, tcflag_t *, jint);
+int translate_parity(JNIEnv *, tcflag_t *, jint);
 #endif
 void system_wait();
-void finalize_event_info_struct( struct event_info_struct * );
-int read_byte_array( JNIEnv *, jobject *, int, unsigned char *, int, int );
-long get_java_var_long( JNIEnv *, jobject, char *, char * );
-size_t get_java_var( JNIEnv *, jobject, char *, char * );
-jboolean is_interrupted( struct event_info_struct * );
-int send_event(struct event_info_struct *, jint, int );
-void dump_termios(char *,struct termios *);
+void finalize_event_info_struct(struct event_info_struct *);
+int read_byte_array(JNIEnv *, jobject *, int, unsigned char *, int, int);
+long get_java_var_long(JNIEnv *, jobject, char *, char *);
+size_t get_java_var(JNIEnv *, jobject, char *, char *);
+jboolean is_interrupted(struct event_info_struct *);
+int send_event(struct event_info_struct *, jint, int);
+void dump_termios(char *, struct termios *);
 void report_verbose(char *);
 void report_error(char *);
 void report_warning(char *);
 void report(char *);
-void throw_java_exception( JNIEnv *, char *, char *, char * );
-int lock_device( const char * );
-void unlock_device( const char * );
-int is_device_locked( const char * );
-int check_lock_status( const char * );
-int lfs_unlock(const char *, int );
-int lfs_lock( const char *, int);
-int lib_lock_dev_unlock(const char *, int );
-int lib_lock_dev_lock( const char *, int);
-void fhs_unlock(const char *, int );
-int fhs_lock( const char *, int);
-void uucp_unlock( const char *, int );
-int uucp_lock( const char *, int );
-int system_does_not_lock( const char *, int );
-void system_does_not_unlock( const char *, int );
+void throw_java_exception(JNIEnv *, char *, char *, char *);
+int lock_device(const char *);
+void unlock_device(const char *);
+int is_device_locked(const char *);
+int check_lock_status(const char *);
+int lfs_unlock(const char *, int);
+int lfs_lock(const char *, int);
+int lib_lock_dev_unlock(const char *, int);
+int lib_lock_dev_lock(const char *, int);
+void fhs_unlock(const char *, int);
+int fhs_lock(const char *, int);
+void uucp_unlock(const char *, int);
+int uucp_lock(const char *, int);
+int system_does_not_lock(const char *, int);
+void system_does_not_unlock(const char *, int);
 int check_group_uucp();
-int check_lock_pid( const char *, int );
+int check_lock_pid(const char *, int);
 int printj(JNIEnv *env, wchar_t *fmt, ...);
 
 #define UNEXPECTED_LOCK_FILE "RXTX Error:  Unexpected lock file: %s\n Please report to the RXTX developers\n"

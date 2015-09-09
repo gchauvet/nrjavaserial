@@ -7,13 +7,13 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-/*
- * Class:     gnu_io_RXTXVersion
- * Method:    nativeGetVersion
- * Signature: ()Ljava/lang/String;
- */
-JNIEXPORT jstring JNICALL Java_gnu_io_RXTXVersion_nativeGetVersion
-  (JNIEnv *, jclass);
+    /*
+     * Class:     gnu_io_RXTXVersion
+     * Method:    nativeGetVersion
+     * Signature: ()Ljava/lang/String;
+     */
+    JNIEXPORT jstring JNICALL Java_gnu_io_RXTXVersion_nativeGetVersion
+    (JNIEnv *, jclass);
 
 #ifdef __cplusplus
 }

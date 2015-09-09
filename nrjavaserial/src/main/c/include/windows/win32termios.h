@@ -68,7 +68,7 @@
 #define LEAVE(x)
 #endif /* TRACE */
 #if defined(_MSC_VER)
-#  define snprintf _snprintf
+#define snprintf _snprintf
 #endif
 
 #define YACK() \
@@ -91,33 +91,33 @@
 	LocalFree(allocTextBuf); \
 	Sleep(1); \
 }
-typedef unsigned char   cc_t;
-typedef unsigned int    speed_t;
-typedef unsigned int    tcflag_t;
+typedef unsigned char cc_t;
+typedef unsigned int speed_t;
+typedef unsigned int tcflag_t;
 
 /* structs are from linux includes or linux man pages to match
    interfaces.
-*/
+ */
 #ifndef _TIMESPEC_DEFINED
-struct timespec
-{
-	time_t	tv_sec;
-	long	tv_nsec;
+
+struct timespec {
+    time_t tv_sec;
+    long tv_nsec;
 };
 #endif
 
 #define NCCS 32
-struct termios
-  {
-    tcflag_t c_iflag;           /* input mode flags */
-    tcflag_t c_oflag;           /* output mode flags */
-    tcflag_t c_cflag;           /* control mode flags */
-    tcflag_t c_lflag;           /* local mode flags */
-    cc_t c_cc[NCCS];            /* control characters */
-    cc_t c_line;                /* line discipline (== c_cc[33]) */
-    speed_t c_ispeed;           /* input speed */
-    speed_t c_ospeed;           /* output speed */
-  };
+
+struct termios {
+    tcflag_t c_iflag; /* input mode flags */
+    tcflag_t c_oflag; /* output mode flags */
+    tcflag_t c_cflag; /* control mode flags */
+    tcflag_t c_lflag; /* local mode flags */
+    cc_t c_cc[NCCS]; /* control characters */
+    cc_t c_line; /* line discipline (== c_cc[33]) */
+    speed_t c_ispeed; /* input speed */
+    speed_t c_ospeed; /* output speed */
+};
 
 /*  for TIOCGSERIAL and TIOCSSERIAL of interest are baud_base and
  *  custom_divisor
@@ -125,36 +125,37 @@ struct termios
  *             kernel side.
  */
 struct serial_struct {
-/*
-	Mainly we are after baud_base/custom_diviser to match
-	the ioctl() in SerialImp.c
-*/
-	int custom_divisor;   /* use to set unsupported speeds */
-	int baud_base;        /* use to set unsupported speeds */
+    /*
+            Mainly we are after baud_base/custom_diviser to match
+            the ioctl() in SerialImp.c
+     */
+    int custom_divisor; /* use to set unsupported speeds */
+    int baud_base; /* use to set unsupported speeds */
 
-	unsigned short	close_delay, closing_wait, iomem_reg_shift;
-	int type, line, irq, flags, xmit_fifo_size, hub6;
-	unsigned int	port, port_high;
-	char		io_type;
-	unsigned char	*iomem_base;
+    unsigned short close_delay, closing_wait, iomem_reg_shift;
+    int type, line, irq, flags, xmit_fifo_size, hub6;
+    unsigned int port, port_high;
+    char io_type;
+    unsigned char *iomem_base;
 };
+
 struct serial_icounter_struct {
-	int cts;		/* clear to send count */
-	int dsr;		/* data set ready count */
-	int rng;		/* ring count */
-	int dcd;		/* carrier detect count */
-	int rx;			/* recieved byte count */
-	int tx;			/* transmitted byte count */
-	int frame;		/* frame error count */
-	int overrun;		/* hardware overrun error count */
-	int parity;		/* parity error count */
-	int brk;		/* break count */
-	int buf_overrun;	/* buffer overrun count */
-	int reserved[9]; 	/* unused */
+    int cts; /* clear to send count */
+    int dsr; /* data set ready count */
+    int rng; /* ring count */
+    int dcd; /* carrier detect count */
+    int rx; /* recieved byte count */
+    int tx; /* transmitted byte count */
+    int frame; /* frame error count */
+    int overrun; /* hardware overrun error count */
+    int parity; /* parity error count */
+    int brk; /* break count */
+    int buf_overrun; /* buffer overrun count */
+    int reserved[9]; /* unused */
 };
 
-int serial_test( char * );
-int serial_open(const char *File, int flags, ... );
+int serial_test(char *);
+int serial_open(const char *File, int flags, ...);
 int serial_close(int fd);
 int serial_read(int fd, void *b, int size);
 int serial_write(int fd, char *Str, int length);
@@ -171,9 +172,9 @@ int serial_select(int, struct fd_set *, struct fd_set *, struct fd_set *, struct
 #define READ serial_read
 #define WRITE serial_write
 
-void termios_interrupt_event_loop( int , int );
-void termios_setflags( int , int[] );
-struct termios_list *find_port( int );
+void termios_interrupt_event_loop(int, int);
+void termios_setflags(int, int[]);
+struct termios_list *find_port(int);
 void usleep(unsigned long usec);
 int fcntl(int fd, int command, ...);
 const char *get_dos_port(const char *);
@@ -185,25 +186,25 @@ int termios_to_bytesize(int);
 int bytesize_to_termios(int);
 int tcgetattr(int Fd, struct termios *s_termios);
 int tcsetattr(int Fd, int when, struct termios *);
-int serial_close(int );
+int serial_close(int);
 speed_t cfgetospeed(struct termios *s_termios);
 speed_t cfgetispeed(struct termios *s_termios);
 int cfsetspeed(struct termios *, speed_t speed);
 int cfsetospeed(struct termios *, speed_t speed);
-int cfsetispeed ( struct termios *, speed_t speed);
-int tcflush ( int , int );
-int tcgetpgrp ( int );
-int tcsetpgrp ( int , int );
-int tcdrain ( int );
-int tcflow ( int , int );
-int tcsendbreak ( int , int );
-int ioctl(int fd, int request, ... );
+int cfsetispeed(struct termios *, speed_t speed);
+int tcflush(int, int);
+int tcgetpgrp(int);
+int tcsetpgrp(int, int);
+int tcdrain(int);
+int tcflow(int, int);
+int tcsendbreak(int, int);
+int ioctl(int fd, int request, ...);
 /*
 int fstat(int fd, ... );
-*/
+ */
 void cfmakeraw(struct termios *s_termios);
-int termiosGetParityErrorChar( int );
-void termiosSetParityError( int, char );
+int termiosGetParityErrorChar(int);
+void termiosSetParityError(int, char);
 
 #define O_NOCTTY	0400	/* not for fcntl */
 #define O_NONBLOCK	 00004
@@ -354,10 +355,10 @@ void termiosSetParityError( int, char );
 #define  B4000000 0010017
 
 /*
-	glue for unsupported linux speeds see also SerialImp.h
-	custom baud rates around 8192-9000 will not work because
-	of these.
-*/
+        glue for unsupported linux speeds see also SerialImp.h
+        custom baud rates around 8192-9000 will not work because
+        of these.
+ */
 
 #define B14400		0020001
 #define B28800		0020002
@@ -377,9 +378,9 @@ void termiosSetParityError( int, char );
 #define PARODD	0001000
 #define HUPCL	0002000
 #define CLOCAL	0004000
-# define CBAUDEX 0010000
-# define CIBAUD	  002003600000		/* input baud rate (not used) */
-# define CRTSCTS  020000000000		/* flow control */
+#define CBAUDEX 0010000
+#define CIBAUD	  002003600000		/* input baud rate (not used) */
+#define CRTSCTS  020000000000		/* flow control */
 
 /* c_l flag */
 #define ISIG    0000001
@@ -455,7 +456,7 @@ TIOC[GS]SERIAL is not used on win32.  It was dropped after we could not
 find a way to get/set buad_base and divisor directly.
 #define TIOCGSERIAL	0x541e
 #define TIOCSSERIAL	0x541f
-*/
+ */
 #define TCSBRKP		0x5425
 #define TIOCSERCONFIG	0x5453
 #define TIOCSERGWILD	0x5454
@@ -466,15 +467,15 @@ find a way to get/set buad_base and divisor directly.
 #define TIOCMIWAIT	0x545c
 /* this would require being able to get the number of overruns ... */
 /*
-	FIXME
-	frame and parity errors caused crashes in testing BlackBox
-*/
+        FIXME
+        frame and parity errors caused crashes in testing BlackBox
+ */
 #define TIOCGICOUNT	0x545d
 
 /* ioctl errors */
 #define ENOIOCTLCMD	515
 #if ! defined( __LCC__ )
-	#define EBADFD		 77
+#define EBADFD		 77
 #endif
 /* modem lines */
 #define TIOCM_LE    0x001

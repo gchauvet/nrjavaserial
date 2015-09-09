@@ -19,13 +19,13 @@ extern "C" {
 #define gnu_io_CommPortIdentifier_PORT_RAW 5L
 #undef gnu_io_CommPortIdentifier_debug
 #define gnu_io_CommPortIdentifier_debug 0L
-/*
- * Class:     gnu_io_CommPortIdentifier
- * Method:    native_psmisc_report_owner
- * Signature: (Ljava/lang/String;)Ljava/lang/String;
- */
-JNIEXPORT jstring JNICALL Java_gnu_io_CommPortIdentifier_native_1psmisc_1report_1owner
-  (JNIEnv *, jobject, jstring);
+    /*
+     * Class:     gnu_io_CommPortIdentifier
+     * Method:    native_psmisc_report_owner
+     * Signature: (Ljava/lang/String;)Ljava/lang/String;
+     */
+    JNIEXPORT jstring JNICALL Java_gnu_io_CommPortIdentifier_native_1psmisc_1report_1owner
+    (JNIEnv *, jobject, jstring);
 
 #ifdef __cplusplus
 }

@@ -11,45 +11,45 @@ extern "C" {
 #define gnu_io_RXTXCommDriver_debug 0L
 #undef gnu_io_RXTXCommDriver_devel
 #define gnu_io_RXTXCommDriver_devel 0L
-/*
- * Class:     gnu_io_RXTXCommDriver
- * Method:    registerKnownPorts
- * Signature: (I)Z
- */
-JNIEXPORT jboolean JNICALL Java_gnu_io_RXTXCommDriver_registerKnownPorts
-  (JNIEnv *, jobject, jint);
+    /*
+     * Class:     gnu_io_RXTXCommDriver
+     * Method:    registerKnownPorts
+     * Signature: (I)Z
+     */
+    JNIEXPORT jboolean JNICALL Java_gnu_io_RXTXCommDriver_registerKnownPorts
+    (JNIEnv *, jobject, jint);
 
-/*
- * Class:     gnu_io_RXTXCommDriver
- * Method:    isPortPrefixValid
- * Signature: (Ljava/lang/String;)Z
- */
-JNIEXPORT jboolean JNICALL Java_gnu_io_RXTXCommDriver_isPortPrefixValid
-  (JNIEnv *, jobject, jstring);
+    /*
+     * Class:     gnu_io_RXTXCommDriver
+     * Method:    isPortPrefixValid
+     * Signature: (Ljava/lang/String;)Z
+     */
+    JNIEXPORT jboolean JNICALL Java_gnu_io_RXTXCommDriver_isPortPrefixValid
+    (JNIEnv *, jobject, jstring);
 
-/*
- * Class:     gnu_io_RXTXCommDriver
- * Method:    testRead
- * Signature: (Ljava/lang/String;I)Z
- */
-JNIEXPORT jboolean JNICALL Java_gnu_io_RXTXCommDriver_testRead
-  (JNIEnv *, jobject, jstring, jint);
+    /*
+     * Class:     gnu_io_RXTXCommDriver
+     * Method:    testRead
+     * Signature: (Ljava/lang/String;I)Z
+     */
+    JNIEXPORT jboolean JNICALL Java_gnu_io_RXTXCommDriver_testRead
+    (JNIEnv *, jobject, jstring, jint);
 
-/*
- * Class:     gnu_io_RXTXCommDriver
- * Method:    getDeviceDirectory
- * Signature: ()Ljava/lang/String;
- */
-JNIEXPORT jstring JNICALL Java_gnu_io_RXTXCommDriver_getDeviceDirectory
-  (JNIEnv *, jobject);
+    /*
+     * Class:     gnu_io_RXTXCommDriver
+     * Method:    getDeviceDirectory
+     * Signature: ()Ljava/lang/String;
+     */
+    JNIEXPORT jstring JNICALL Java_gnu_io_RXTXCommDriver_getDeviceDirectory
+    (JNIEnv *, jobject);
 
-/*
- * Class:     gnu_io_RXTXCommDriver
- * Method:    nativeGetVersion
- * Signature: ()Ljava/lang/String;
- */
-JNIEXPORT jstring JNICALL Java_gnu_io_RXTXCommDriver_nativeGetVersion
-  (JNIEnv *, jclass);
+    /*
+     * Class:     gnu_io_RXTXCommDriver
+     * Method:    nativeGetVersion
+     * Signature: ()Ljava/lang/String;
+     */
+    JNIEXPORT jstring JNICALL Java_gnu_io_RXTXCommDriver_nativeGetVersion
+    (JNIEnv *, jclass);
 
 #ifdef __cplusplus
 }
